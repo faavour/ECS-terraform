@@ -21,7 +21,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform init -input=false
+      run: cd terraform && terraform init -input=false
     
     - name: Terraform fmt
       id: fmt
@@ -30,14 +30,14 @@ jobs:
 
     - name: Terraform Validate
       id: validate
-      run: terraform validate -no-color
+      run: cd terraform && terraform validate -no-color
 
     - name: Terraform Plan
       id: plan
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: terraform plan -no-color -var="key_name=ecs_workshop" -var="cluster_name=ecs_workshop_cluster"
+      run: cd terraform && terraform plan -no-color -var="key_name=ecs_workshop" -var="cluster_name=ecs_workshop_cluster"
       continue-on-error: true
 
   docker:
